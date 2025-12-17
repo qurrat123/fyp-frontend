@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import MoodQuestions from '../components/MoodQuestions';
 import ScreeningResults from '../components/ScreeningResults';
-import { analyzeText } from '../utils/api';
 import { saveHistoryEntry } from '../utils/storage';
+import { predictText } from '../api/backend';
 
 function ScreeningPage() {
   const [text, setText] = useState('');
@@ -29,8 +29,8 @@ function ScreeningPage() {
     setResults(null);
 
     try {
-      const analysisResults = await analyzeText(text, moodData);
-      setResults(analysisResults);
+      const backendResult = await predictText(text.trim());
+      setResults(backendResult);
 
       // Save to history
       const historyEntry = {
@@ -40,16 +40,18 @@ function ScreeningPage() {
         data: {
           text: text.trim(),
           textSnippet: text.trim().substring(0, 100) + (text.trim().length > 100 ? '...' : ''),
-          emotions: analysisResults.emotions,
-          depressionRisk: analysisResults.risk,
-          explanation: analysisResults.explanation,
+          emotion: backendResult.emotion,
+          phq8_score: backendResult.phq8_score,
+          phq8_binary: backendResult.phq8_binary,
+          emotion_probs: backendResult.emotion_probs,
           moodData: moodData,
         },
       };
       saveHistoryEntry(historyEntry);
     } catch (err) {
-      setError('An error occurred while analyzing your text. Please try again.');
+      setError(err.message || 'An error occurred while analyzing your text. Please try again.');
       console.error('Analysis error:', err);
+      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
@@ -136,7 +138,54 @@ function ScreeningPage() {
       </form>
 
       {/* Results */}
-      {results && <ScreeningResults results={results} />}
+      {isLoading && (
+        <div className="mt-6 text-center text-slate-300">
+          Analyzing...
+        </div>
+      )}
+
+      {results && (
+        <div className="mt-6 bg-slate-800 border border-slate-700 rounded-lg p-6 space-y-4">
+          <h2 className="text-2xl font-bold text-teal-400 mb-4">Analysis Results</h2>
+          
+          <div className="space-y-3">
+            <div>
+              <span className="text-slate-400 font-medium">Emotion: </span>
+              <span className="text-slate-100">{results.emotion}</span>
+            </div>
+            
+            <div>
+              <span className="text-slate-400 font-medium">PHQ-8 Score: </span>
+              <span className="text-slate-100">{results.phq8_score}</span>
+            </div>
+            
+            <div>
+              <span className="text-slate-400 font-medium">PHQ-8 Binary: </span>
+              <span className="text-slate-100">{results.phq8_binary ? 'Yes' : 'No'}</span>
+            </div>
+
+            {results.emotion_probs && (
+              <div>
+                <span className="text-slate-400 font-medium block mb-2">Emotion Probabilities: </span>
+                <div className="bg-slate-900 rounded p-3">
+                  {typeof results.emotion_probs === 'object' ? (
+                    <ul className="space-y-1">
+                      {Object.entries(results.emotion_probs).map(([emotion, prob]) => (
+                        <li key={emotion} className="text-slate-200">
+                          <span className="capitalize">{emotion}: </span>
+                          <span className="text-teal-400">{(typeof prob === 'number' ? (prob * 100).toFixed(1) : prob)}%</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-slate-200">{JSON.stringify(results.emotion_probs)}</p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

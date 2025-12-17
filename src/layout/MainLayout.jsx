@@ -14,13 +14,9 @@ function MainLayout() {
             {/* Logo/Brand */}
             <Link to="/" className="flex items-center gap-3 text-xl font-semibold text-teal-400 hover:text-teal-300 transition-colors">
               <img 
-                src="/logo.svg" 
+                src="/logo.png" 
                 alt="ConfidMind Logo" 
                 className="h-8 w-8 object-contain"
-                onError={(e) => {
-                  // Fallback if logo doesn't exist yet
-                  e.target.style.display = 'none';
-                }}
               />
               <span>ConfidMind</span>
             </Link>

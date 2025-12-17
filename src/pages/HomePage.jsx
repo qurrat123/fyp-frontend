@@ -2,18 +2,14 @@ import { Link } from 'react-router-dom';
 
 function HomePage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 home-hero">
       {/* Hero Section */}
-      <div className="text-center mb-12">
+      <div className="text-center mb-12 hero-fade-in">
         <div className="flex justify-center items-center gap-4 mb-6">
           <img 
-            src="/logo.svg" 
+            src="/logo.png" 
             alt="ConfidMind Logo" 
             className="h-16 w-16 object-contain"
-            onError={(e) => {
-              // Fallback if logo doesn't exist yet
-              e.target.style.display = 'none';
-            }}
           />
           <h1 className="text-4xl font-bold text-teal-400">
             ConfidMind
@@ -28,7 +24,7 @@ function HomePage() {
       </div>
 
       {/* Main Content */}
-      <div className="bg-slate-800 rounded-lg p-8 mb-8 border border-slate-700">
+      <div className="bg-slate-800 rounded-lg p-8 mb-8 border border-slate-700 hero-fade-in">
         <h2 className="text-2xl font-semibold text-teal-300 mb-4">What This Project Does</h2>
         <div className="space-y-4 text-slate-300">
           <p>
@@ -57,7 +53,7 @@ function HomePage() {
       </div>
 
       {/* Safety Disclaimer */}
-      <div className="bg-amber-900/30 border-2 border-amber-600 rounded-lg p-6 mb-8">
+      <div className="bg-amber-900/30 border-2 border-amber-600 rounded-lg p-6 mb-8 hero-fade-in">
         <div className="flex items-start">
           <span className="text-2xl mr-3">⚠️</span>
           <div>
@@ -77,13 +73,13 @@ function HomePage() {
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <Link
           to="/screening"
-          className="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors text-center"
+          className="home-cta-btn bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors text-center"
         >
           Start Screening
         </Link>
         <Link
           to="/chat"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors text-center"
+          className="home-cta-btn bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors text-center"
         >
           Chat with Agent
         </Link>
