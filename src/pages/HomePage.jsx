@@ -4,23 +4,48 @@ function HomePage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 home-hero">
       {/* Hero Section */}
-      <div className="text-center mb-12 hero-fade-in">
-        <div className="flex justify-center items-center gap-4 mb-6">
-          <img 
-            src="/logo.png" 
-            alt="ConfidMind Logo" 
-            className="h-16 w-16 object-contain"
-          />
-          <h1 className="text-4xl font-bold text-teal-400">
-            ConfidMind
-          </h1>
+      <div className="mb-12 hero-fade-in">
+        <div className="grid gap-8 md:grid-cols-2 md:items-center">
+          {/* Left: text */}
+          <div className="text-center md:text-left">
+            <div className="flex justify-center md:justify-start items-center gap-4 mb-6">
+              <h1 className="text-4xl font-bold text-teal-400">
+                ConfidMind
+              </h1>
+            </div>
+            <p className="text-xl text-slate-300 mb-2">
+              Federated Learning Based Mental Health AI Agent
+            </p>
+            <p className="text-lg text-slate-400">
+              A privacy-preserving mental health assistant powered by federated learning
+            </p>
+
+            {/* Action Buttons (kept in hero) */}
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <Link
+                to="/screening"
+                className="home-cta-btn bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors text-center"
+              >
+                Start Screening
+              </Link>
+              <Link
+                to="/chat"
+                className="home-cta-btn bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors text-center"
+              >
+                Chat with Agent
+              </Link>
+            </div>
+          </div>
+
+          {/* Right: hero image */}
+          <div className="flex justify-center md:justify-end md:pl-8 pt-2 md:pt-0">
+            <img
+              src="/image.png"
+              alt="ConfidMind hero"
+              className="w-full max-w-md rounded-2xl shadow-lg border border-slate-700/50"
+            />
+          </div>
         </div>
-        <p className="text-xl text-slate-300 mb-2">
-          Federated Learning Based Mental Health AI Agent
-        </p>
-        <p className="text-lg text-slate-400">
-          A privacy-preserving mental health assistant powered by federated learning
-        </p>
       </div>
 
       {/* Main Content */}
@@ -69,21 +94,7 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-center">
-        <Link
-          to="/screening"
-          className="home-cta-btn bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors text-center"
-        >
-          Start Screening
-        </Link>
-        <Link
-          to="/chat"
-          className="home-cta-btn bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors text-center"
-        >
-          Chat with Agent
-        </Link>
-      </div>
+      {/* (Buttons moved into the Hero Section above) */}
     </div>
   );
 }
